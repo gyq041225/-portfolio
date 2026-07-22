@@ -27,7 +27,7 @@ export default function AboutContact() {
 
       {/* 悬浮联系方式卡片（向下展开，黑色风格） */}
       <div
-        className={`absolute top-full z-20 mt-4 w-[300px] rounded-2xl p-4 transition-all duration-300 ${
+        className={`absolute top-full left-1/2 -translate-x-1/2 z-20 mt-4 w-[440px] max-w-[90vw] rounded-2xl p-4 transition-all duration-300 ${
           open
             ? 'pointer-events-auto translate-y-0 opacity-100'
             : 'pointer-events-none -translate-y-3 opacity-0'
@@ -52,18 +52,42 @@ export default function AboutContact() {
         <div className="mb-3 text-center text-xs font-medium tracking-widest text-[#8fa6b8]">
           CONTACT · 点击复制
         </div>
-        <FloatRow
-          label="PHONE"
-          value={CONTACT.phone}
-          copied={copied === 'phone'}
-          onCopy={() => handleCopy(CONTACT.phone, 'phone')}
-        />
-        <FloatRow
-          label="EMAIL"
-          value={CONTACT.email}
-          copied={copied === 'email'}
-          onCopy={() => handleCopy(CONTACT.email, 'email')}
-        />
+
+        <div className="flex gap-3">
+          {/* 左侧：电话 + 邮箱 */}
+          <div className="flex-1 min-w-0">
+            <FloatRow
+              label="PHONE"
+              value={CONTACT.phone}
+              copied={copied === 'phone'}
+              onCopy={() => handleCopy(CONTACT.phone, 'phone')}
+            />
+            <FloatRow
+              label="EMAIL"
+              value={CONTACT.email}
+              copied={copied === 'email'}
+              onCopy={() => handleCopy(CONTACT.email, 'email')}
+            />
+          </div>
+
+          {/* 右侧：微信二维码 */}
+          <div className="flex flex-col items-center justify-center gap-1.5 flex-shrink-0">
+            <div
+              className="w-[120px] h-[120px] rounded-xl overflow-hidden flex items-center justify-center"
+              style={{ background: '#fff', border: '1px solid rgba(215,226,234,0.15)' }}
+            >
+              <img
+                src="/skills/wechat-qr.png"
+                alt="微信二维码"
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  ;(e.currentTarget.style.display = 'none')
+                }}
+              />
+            </div>
+            <span className="text-[10px] text-[#8fa6b8]">微信扫码</span>
+          </div>
+        </div>
       </div>
     </div>
   )

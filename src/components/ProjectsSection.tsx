@@ -1,5 +1,3 @@
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
 import FadeIn from './FadeIn'
 
 type Project = {
@@ -59,7 +57,7 @@ export default function ProjectsSection() {
         Project
       </FadeIn>
 
-      <div>
+      <div className="max-w-6xl mx-auto">
         {PROJECTS.map((project, i) => (
           <ProjectCard
             key={project.num}
@@ -82,24 +80,19 @@ function ProjectCard({
   index: number
   total: number
 }) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'start start'],
-  })
-
-  const targetScale = 1 - (total - 1 - index) * 0.03
-  const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale])
-
+  const STEP = 135 // 每张卡片阶梯错开的距离
   return (
     <div
-      ref={containerRef}
-      className="h-[85vh] flex items-start justify-center sticky"
-      style={{ top: `${64 + index * 170}px` }}
+      className="sticky"
+      style={{
+        top: `${90 + index * STEP}px`,
+        marginBottom: index < total - 1 ? '2.5rem' : 0,
+        zIndex: index + 1,
+      }}
     >
-      <motion.div
-        style={{ scale, background: '#0C0C0C' }}
-        className="w-full max-w-6xl rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] p-6 sm:p-8 md:p-10"
+      <div
+        style={{ background: '#0C0C0C' }}
+        className="w-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] p-6 sm:p-8 md:p-10"
       >
         {/* 顶部：编号 + LIVE PROJECT */}
         <div className="flex items-center justify-between mb-6 md:mb-8">
@@ -176,7 +169,7 @@ function ProjectCard({
             )}
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }
